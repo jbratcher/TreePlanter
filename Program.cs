@@ -16,10 +16,11 @@ namespace TreePlanter
             string currentDirectory = Directory.GetCurrentDirectory();
             DirectoryInfo directory = new DirectoryInfo(currentDirectory);
             var fileName = Path.Combine(directory.FullName, "PlantingAreasData.json");
-            string jsonData = File.ReadAllText(fileName);
-            Console.WriteLine(jsonData);
 
             // get data from json file
+            string jsonString = File.ReadAllText(fileName);
+            var jsonObject = JsonConvert.DeserializeObject<List<PlantingArea>>(jsonString);
+            Console.WriteLine(jsonObject[0].ShortName);
 
             // modify data for display to user if display option chosen
 

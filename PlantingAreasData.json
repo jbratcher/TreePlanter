@@ -1,11 +1,11 @@
 [
 
   {
-    "UniqueID": 1,
-    "ShortName": "Downtown",
-    "Address": "100 West Main Street",
-    "OpenSpaces": 4,
-    "DateSubmitted": "Wednesday, 26 June 2019"
+    "uniqueID": 1,
+    "shortName": "Downtown",
+    "address": "100 West Main Street",
+    "openSpaces": 4,
+    "dateSubmitted": "Wednesday, 26 June 2019"
   }
 
 ]
