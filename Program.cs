@@ -15,12 +15,13 @@ namespace TreePlanter
 
             string currentDirectory = Directory.GetCurrentDirectory();
             DirectoryInfo directory = new DirectoryInfo(currentDirectory);
-            var fileName = Path.Combine(directory.FullName, "PlantingAreasData.json");
 
-            // get data from json file
-            string jsonString = File.ReadAllText(fileName);
-            var jsonObject = JsonConvert.DeserializeObject<List<PlantingArea>>(jsonString);
-            Console.WriteLine(jsonObject[0].ShortName);
+            // Prepare planting areas data
+            var plantingAreasJsonFile = Path.Combine(directory.FullName, "PlantingAreasData.json");
+            string jsonString = File.ReadAllText(plantingAreasJsonFile);
+            // var <List<PlantingArea>>
+            var areas = JsonConvert.DeserializeObject<List<PlantingArea>>(jsonString);
+            Console.WriteLine(areas[0].ShortName);
 
             // modify data for display to user if display option chosen
 
@@ -43,8 +44,13 @@ namespace TreePlanter
             switch (Convert.ToInt32(input))
             {
                 case 1:
-                    Console.WriteLine("List avaialbe areas");
                     // list available areas and details to user
+                    Console.WriteLine("Available Areas:\n");
+                    Console.WriteLine(String.Format("{0,-10} | {0,-10} | {2,5}", "Name", "Open Spaces", "Address"));
+                    foreach (var area in areas)
+                    {
+                        Console.WriteLine(String.Format("{0,-10} | {0,-10} | {2,5}", area.ShortName, area.OpenSpaces, area.Address));
+                    }
                     break;
                     
 

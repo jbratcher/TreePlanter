@@ -3,8 +3,22 @@
   {
     "uniqueID": 1,
     "shortName": "Downtown",
-    "address": "100 West Main Street",
-    "openSpaces": 4,
+    "address": "100 West Main St",
+    "openSpaces": 8,
+    "dateSubmitted": "Wednesday, 26 June 2019"
+  },
+  {
+    "uniqueID": 2,
+    "shortName": "Clifton",
+    "address": "100 Pope St",
+    "openSpaces": 5,
+    "dateSubmitted": "Wednesday, 26 June 2019"
+  },
+  {
+    "uniqueID": 3,
+    "shortName": "Nulu",
+    "address": "500 East Market St",
+    "openSpaces": 3,
     "dateSubmitted": "Wednesday, 26 June 2019"
   }
 
