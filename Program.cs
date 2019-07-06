@@ -14,14 +14,18 @@ namespace TreePlanter
             // Create tree planting areas list from json file and PlantingArea class
 
             string currentDirectory = Directory.GetCurrentDirectory();
+            Console.WriteLine(currentDirectory);
             DirectoryInfo directory = new DirectoryInfo(currentDirectory);
 
             // Prepare planting areas data
             var plantingAreasJsonFile = Path.Combine(directory.FullName, "PlantingAreasData.json");
-            string jsonString = File.ReadAllText(plantingAreasJsonFile);
+            Console.WriteLine(plantingAreasJsonFile);
             // var <List<PlantingArea>>
-            var areas = JsonConvert.DeserializeObject<List<PlantingArea>>(jsonString);
-            Console.WriteLine(areas[0].ShortName);
+            var areas = DeserializePlantingAreas(plantingAreasJsonFile);
+            foreach (var area in areas)
+            {
+                Console.WriteLine(area.ShortName);
+            }
 
             // modify data for display to user if display option chosen
 
@@ -46,19 +50,43 @@ namespace TreePlanter
                 case 1:
                     // list available areas and details to user
                     Console.WriteLine("Available Areas:\n");
-                    Console.WriteLine(String.Format("{0,-10} | {0,-10} | {2,5}", "Name", "Open Spaces", "Address"));
+                    Console.WriteLine(String.Format("{0,-10} | {1,-11} | {2,5}", "Name", "Open Spaces", "Address"));
                     foreach (var area in areas)
                     {
-                        Console.WriteLine(String.Format("{0,-10} | {0,-10} | {2,5}", area.ShortName, area.OpenSpaces, area.Address));
+                        Console.WriteLine(String.Format("{0,-10} | {1,-11} | {2,5}", area.ShortName, area.OpenSpaces, area.Address));
                     }
                     break;
                     
 
                 case 2:
                     Console.WriteLine("Add an area");
-                    // display data types to enter
                     // capture user input
-                    // 
+                    Console.WriteLine("Enter the area name: "); 
+                    string name = Console.ReadLine();
+                    Console.WriteLine("Enter the area address: ");
+                    string address = Console.ReadLine();
+                    Console.WriteLine("Enter the number of spaces avaialbe: ");
+                    int spaces = Convert.ToInt32(Console.ReadLine());
+                    // make new obj with input data
+                    PlantingArea newArea = new PlantingArea
+                    {
+                        UniqueID = areas.Count + 1,
+                        ShortName = name,
+                        Address = address,
+                        OpenSpaces = spaces,
+                        DateSubmitted = DateTime.Now
+
+                    };
+                    // add new planting area to list
+                    areas.Add(newArea);
+                    Console.WriteLine(areas.Count);
+                    // save list back to file
+                    using (StreamWriter file = File.CreateText(plantingAreasJsonFile))
+                    {
+                        JsonSerializer serializer = new JsonSerializer();
+                        serializer.Serialize(file, areas);
+                    }
+
                     break;
                     
             }
