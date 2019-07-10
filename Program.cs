@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace TreePlanter
 {
@@ -67,10 +68,28 @@ namespace TreePlanter
                             Console.WriteLine("___________");
                             Console.WriteLine("Name: ");
                             string name = Console.ReadLine();
+                            while(string.IsNullOrEmpty(name))
+                            {
+                                Console.WriteLine("Invalid input. Please try again.");
+                                name = Console.ReadLine();
+                            }
+                            
                             Console.WriteLine("Address: ");
                             string address = Console.ReadLine();
-                            Console.WriteLine("Spaces avaialbe: ");
-                            int spaces = Convert.ToInt32(Console.ReadLine());
+                            while(string.IsNullOrEmpty(address))
+                            {
+                                Console.WriteLine("Invalid input. Please try again.");
+                                address = Console.ReadLine();
+                            }
+
+                            Console.WriteLine("Spaces available: ");
+                            string spaces = Console.ReadLine();
+                            while(String.IsNullOrEmpty(spaces) 
+                                && Convert.ToInt32(spaces) <= 0)
+                            {
+                                Console.WriteLine("Invalid input. Please try again.");
+                                spaces = Console.ReadLine();
+                            }
 
                             // make new obj with user input data
                             PlantingArea newArea = new PlantingArea
@@ -78,7 +97,7 @@ namespace TreePlanter
                                 UniqueID = areas.Count + 1,
                                 ShortName = name,
                                 Address = address,
-                                OpenSpaces = spaces,
+                                OpenSpaces = Convert.ToInt32(spaces),
                                 DateSubmitted = DateTime.Now
 
                             };
@@ -123,7 +142,7 @@ namespace TreePlanter
                             Console.WriteLine("Name: ");
                             var nameToDelete = Console.ReadLine();
                             areas.RemoveAll(area => area.ShortName == nameToDelete);
-                            Console.WriteLine(nameToDelete + " has been deleted.\nPress any key to continue...");
+                            Console.WriteLine(nameToDelete + " has been filled. Great job!\nPress any key to continue...");
                             Console.ReadKey();
                             break;
 
@@ -145,7 +164,6 @@ namespace TreePlanter
 
                 } catch(Exception e)
                 {
-                    Console.BackgroundColor = ConsoleColor.White;
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine(" Unexpected Error:");
                     Console.WriteLine(e);
