@@ -112,6 +112,12 @@ namespace TreePlanter
                             areas[areas.IndexOf(capturedAreaToEdit)].ShortName = newName;
                             areas[areas.IndexOf(capturedAreaToEdit)].Address = newAddress;
                             areas[areas.IndexOf(capturedAreaToEdit)].OpenSpaces = Convert.ToInt32(newSpaces);
+                            // save/serialize list back to file
+                            using (StreamWriter file = File.CreateText(plantingAreasJsonFile))
+                            {
+                                JsonSerializer serializer = new JsonSerializer();
+                                serializer.Serialize(file, areas);
+                            }
                             Console.WriteLine(areaToEdit + " has been edited.\nPress any key to continue...");
                             Console.ReadKey();
                             break;
@@ -123,6 +129,12 @@ namespace TreePlanter
                             Console.WriteLine("Name: ");
                             var nameToDelete = Console.ReadLine();
                             areas.RemoveAll(area => area.ShortName == nameToDelete);
+                            // save/serialize list back to file
+                            using (StreamWriter file = File.CreateText(plantingAreasJsonFile))
+                            {
+                                JsonSerializer serializer = new JsonSerializer();
+                                serializer.Serialize(file, areas);
+                            }
                             Console.WriteLine(nameToDelete + " has been deleted.\nPress any key to continue...");
                             Console.ReadKey();
                             break;
