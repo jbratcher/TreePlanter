@@ -97,6 +97,23 @@ namespace TreePlanter
 
                         case 3:
                             // edit an area
+                            Console.WriteLine("Edit an area");
+                            Console.WriteLine("___________");
+                            Console.WriteLine("Name: ");
+                            var areaToEdit = Console.ReadLine();
+                            // get area that matches user input
+                            var capturedAreaToEdit = areas.First(area => area.ShortName == areaToEdit);
+                            Console.Write("Edit name (" + capturedAreaToEdit.ShortName +") : ");
+                            var newName = Console.ReadLine();
+                            Console.Write("Edit address (" + capturedAreaToEdit.Address + ") : ");
+                            var newAddress = Console.ReadLine();
+                            Console.Write("Edit spaces available (" + capturedAreaToEdit.OpenSpaces + ") : ");
+                            var newSpaces = Console.ReadLine();
+                            areas[areas.IndexOf(capturedAreaToEdit)].ShortName = newName;
+                            areas[areas.IndexOf(capturedAreaToEdit)].Address = newAddress;
+                            areas[areas.IndexOf(capturedAreaToEdit)].OpenSpaces = Convert.ToInt32(newSpaces);
+                            Console.WriteLine(areaToEdit + " has been edited.\nPress any key to continue...");
+                            Console.ReadKey();
                             break;
 
                         case 4:
