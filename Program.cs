@@ -23,7 +23,7 @@ namespace TreePlanter
 
             // Greet the user
             Console.WriteLine("Welcome to Tree Planter!\n");
-            Console.WriteLine("Find or add places to plant trees in Louisville\n");
+            Console.WriteLine("Find, add, and fill places to plant trees in Louisville\n");
 
 
             // Display main menu and get user choice
@@ -32,7 +32,7 @@ namespace TreePlanter
             Console.WriteLine("// 1. See available areas to plant       //");
             Console.WriteLine("// 2. Add an area to plant               //");
             Console.WriteLine("// 3. Edit an area to plant              //");
-            Console.WriteLine("// 3. Delete an area to plant            //");
+            Console.WriteLine("// 4. Fill an area to plant              //");
             Console.WriteLine("// 5. Quit application                   //");
             Console.WriteLine(string.Concat(Enumerable.Repeat("/", 43)));
 
@@ -101,6 +101,13 @@ namespace TreePlanter
 
                         case 4:
                             // delete an area
+                            Console.WriteLine("Remove an area");
+                            Console.WriteLine("___________");
+                            Console.WriteLine("Name: ");
+                            var nameToDelete = Console.ReadLine();
+                            areas.RemoveAll(area => area.ShortName == nameToDelete);
+                            Console.WriteLine(nameToDelete + " has been deleted.\nPress any key to continue...");
+                            Console.ReadKey();
                             break;
 
                         case 5:
