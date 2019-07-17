@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace TreePlanter
 {
@@ -18,14 +17,11 @@ namespace TreePlanter
             // Prepare planting areas data
             var plantingAreasJsonFile = Path.Combine(directory.FullName, "PlantingAreasData.json");
             // var <List<PlantingArea>>
-            var areas = DeserializePlantingAreas(plantingAreasJsonFile);
-
-            // modify data for display to user if display option chosen
+            var areas = DeserializePlantingAreas(plantingAreasJsonFile);  
 
             // Greet the user
             Console.WriteLine("Welcome to Tree Planter!\n");
             Console.WriteLine("Find, add, and fill places to plant trees in Louisville\n");
-
 
             // Display main menu and get user choice
             Console.WriteLine(string.Concat(Enumerable.Repeat("/", 43)));
@@ -71,6 +67,7 @@ namespace TreePlanter
                             while(string.IsNullOrEmpty(name))
                             {
                                 Console.WriteLine("Invalid input. Please try again.");
+                                Console.WriteLine("No empty strings allowed");
                                 name = Console.ReadLine();
                             }
                             
@@ -84,8 +81,7 @@ namespace TreePlanter
 
                             Console.WriteLine("Spaces available: ");
                             string spaces = Console.ReadLine();
-                            while(String.IsNullOrEmpty(spaces) 
-                                && Convert.ToInt32(spaces) <= 0)
+                            while(Convert.ToInt32(spaces) <= 0)
                             {
                                 Console.WriteLine("Invalid input. Please try again.");
                                 spaces = Console.ReadLine();
@@ -120,17 +116,41 @@ namespace TreePlanter
                             Console.WriteLine("___________");
                             Console.WriteLine("Name: ");
                             var areaToEdit = Console.ReadLine();
+                            int x;
+                            while (string.IsNullOrEmpty(areaToEdit))
+                            {
+                                Console.WriteLine("Invalid input. Please try again.");
+                                areaToEdit = Console.ReadLine();
+                            }
                             // get area that matches user input
                             var capturedAreaToEdit = areas.First(area => area.ShortName == areaToEdit);
                             Console.Write("Edit name (" + capturedAreaToEdit.ShortName +") : ");
                             var newName = Console.ReadLine();
+                            while (string.IsNullOrEmpty(newName))
+                            {
+                                Console.WriteLine("Invalid input. Please try again.");
+                                newName = Console.ReadLine();
+                            }
                             Console.Write("Edit address (" + capturedAreaToEdit.Address + ") : ");
                             var newAddress = Console.ReadLine();
+                            while (string.IsNullOrEmpty(newAddress))
+                            {
+                                Console.WriteLine("Invalid input. Please try again.");
+                                newAddress = Console.ReadLine();
+                            }
                             Console.Write("Edit spaces available (" + capturedAreaToEdit.OpenSpaces + ") : ");
                             var newSpaces = Console.ReadLine();
+                            while (Convert.ToInt32(newSpaces) <= 0)
+                            {
+                                Console.WriteLine("Invalid input. Please try again.");
+                                newSpaces = Console.ReadLine();
+                            }
+
+                            // change properties to user input
                             areas[areas.IndexOf(capturedAreaToEdit)].ShortName = newName;
                             areas[areas.IndexOf(capturedAreaToEdit)].Address = newAddress;
                             areas[areas.IndexOf(capturedAreaToEdit)].OpenSpaces = Convert.ToInt32(newSpaces);
+
                             // save/serialize list back to file
                             using (StreamWriter file = File.CreateText(plantingAreasJsonFile))
                             {
@@ -148,12 +168,14 @@ namespace TreePlanter
                             Console.WriteLine("Name: ");
                             var nameToDelete = Console.ReadLine();
                             areas.RemoveAll(area => area.ShortName == nameToDelete);
+
                             // save/serialize list back to file
                             using (StreamWriter file = File.CreateText(plantingAreasJsonFile))
                             {
                                 JsonSerializer serializer = new JsonSerializer();
                                 serializer.Serialize(file, areas);
                             }
+
                             Console.WriteLine(nameToDelete + " has been filled. Great job!\nPress any key to continue...");
                             Console.ReadKey();
                             break;
